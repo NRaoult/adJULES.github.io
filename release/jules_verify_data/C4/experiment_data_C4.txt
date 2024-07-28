@@ -1,0 +1,3 @@
+site startyear endyear PFT expyear lat lon
+BW-Ma1 1999 2001 WSA 2000 -19.9155 23.5605
+ZA-Kru 2001 2003 SAV 2002 -25.0197 31.4969

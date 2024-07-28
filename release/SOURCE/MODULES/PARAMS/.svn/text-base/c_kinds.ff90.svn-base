@@ -1,0 +1,5 @@
+      MODULE c_kinds
+
+#include "c_kinds.h"
+
+      END MODULE

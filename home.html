@@ -1,0 +1,78 @@
+<html>
+<head>
+
+<link type="text/css" rel="stylesheet" href="CEH_stylesheet.css" media="screen" />
+
+<!--footer p{text-align:center;width:90%;}footer p,footer p a{color:#fff;}-->
+
+<style>
+ul {
+    list-style-type: none;
+    margin: 0px 0px;
+    padding: 0;
+    overflow: hidden;
+    background-color: #f1f1f1;
+    top: 130;
+    width: 100%;   
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: #111;
+    text-align: center;
+    padding: 14px 16px;
+   	 text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #d8d8d8;
+}
+
+</style>
+</head>
+
+<link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
+<title>adJULES Home Page</title>
+<img src="test1.png" alt="JULES logo" width=100% align="middle">
+
+
+<body>
+<br>
+<!-- Menu -->
+<ul>
+  <li><a href="foo1.html">Home</a></li>
+  <li><a href="about.html">About</a></li>
+  <li><a href="code.html">Code</a></li>
+  <li><a href="publications.html">Publications</a></li>
+  <li><a href="contact.html">Contact</a></li>
+</ul>
+<br>
+
+<div id="columns" class="columns clearfix container">
+
+<h2>Welcome to the adJULES website.</h2>
+<p> adJULES is a parameter estimation system designed to optimise the carbon, hydrology, and energy-related parameters of the  <a href="http://jules.jchmr.org/">JULES (the Joint UK Land Environment Simulator) land-surface model </a>. 
+
+<p>JULES has been automatically differentiated with respect to JULES parameters using commercial software from FastOpt, resulting in an analytical gradient, or adjoint, of the model. Using this adjoint, the adJULES parameter estimation system has been developed to search for locally optimum parameters by calibrating against observations. This robust and sophisticated framework aims to minimise a misfit function that measures the mismatch between model output and observed latent, sensible and CO<sub>2</sub> eddy-fluxes. adJULES is also able to provide estimates of uncertainties in the best-fit parameters (in the form of probability density functions, PDFs).
+
+<p>
+Currently, the adJULES system uses in situ data from individual or multiple sites to calibrate these parameters. New data sources such as satellite products are expected to be integrated into the system soon.
+
+</div>
+
+<!-- Blue banner on footer -->
+<div class="footer-tweets"></div>
+
+<footer>           
+<div class="region region-footer3"><div class="region-inner clearfix"><div id="block-block-28" class="block block-block no-title" ><div class="block-inner clearfix">  
+
+<div class="note" align=center>&copy; 2014 &mdash; 2017, developed by N.M. Raoult, maintained by the adJULES team at University of Exeter</div>
+<div class="block-content content" align=center> Funded by the UK Natural Environment Research Council (<a href="https://www.nerc.ac.uk/" style="color: rgb(0,163, 204)">NERC</a>) through the National Centre for Earth Observation (<a href="https://www.nceo.ac.uk/" style="color: rgb(0,163, 204)"">NCEO</a>)</div>
+</footer>
+
+</body>
+</html>

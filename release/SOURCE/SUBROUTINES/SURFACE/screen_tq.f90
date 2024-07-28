@@ -1,0 +1,215 @@
+
+! *****************************COPYRIGHT*******************************
+! (C) Crown copyright Met Office. All rights reserved.
+! For further details please refer to the file COPYRIGHT.txt
+! which you should have received as part of this distribution.
+! *****************************COPYRIGHT*******************************
+!   SUBROUTINE SCREEN_TQ----------------------------------------------
+
+!  Purpose: Diagnose temperature and/or specific humidity at screen
+!           height (1.5 metres), as requested via the STASH flags.
+
+!---------------------------------------------------------------------
+SUBROUTINE screen_tq (                                            &
+ row_length,rows,land_pts,ntiles,                                 &
+ land_index,tile_index,tile_pts,flandg,                           &
+ sq1p5,st1p5,chr1p5m,chr1p5m_sice,pstar,qw_1,resft,               &
+ tile_frac,tl_1,tstar_ssi,tstar_tile,                             &
+ z0hssi,z0h_tile,z0mssi,z0m_tile,z1,                              &
+ q1p5m,q1p5m_tile,t1p5m,t1p5m_tile,                               &
+ lq_mix_bl                                                        &
+ )
+
+USE c_ht_m
+USE surf_param, ONLY : grcp
+
+USE parkind1, ONLY: jprb, jpim
+USE yomhook, ONLY: lhook, dr_hook
+IMPLICIT NONE
+
+INTEGER                                                           &
+ row_length                                                       &
+                      ! IN Number of X points?
+,rows                                                             &
+                      ! IN Number of Y points?
+,land_pts                                                         &
+                      ! IN Number of land points to be processed.
+,ntiles                                                           &
+                      ! IN Number of tiles per land point.
+,land_index(land_pts)                                             &
+                      ! IN Index of land points.
+,tile_index(land_pts,ntiles)                                      &
+!                           ! IN Index of tile points.
+,tile_pts(ntiles)     ! IN Number of tile points.
+
+LOGICAL                                                           &
+ sq1p5                                                            &
+                      ! IN STASH flag for 1.5-metre sp humidity.
+,st1p5                ! IN STASH flag for 1.5-metre temperature.
+
+LOGICAL                                                           &
+ lq_mix_bl              ! TRUE if mixing ratios used in
+!                             ! boundary layer code
+
+REAL                                                              &
+ flandg(row_length,rows)                                          &
+!                           ! IN Fraction of gridbox which is land.
+,chr1p5m(land_pts,ntiles)                                         &
+!                           ! IN Ratio of coefficients for  calculation
+!                           !    of 1.5 m T.
+,chr1p5m_sice(row_length,rows)                                    &
+!                           ! IN Ratio of coefficients for  calculation
+!                           !    of 1.5 m T.
+,pstar(row_length,rows)                                           &
+                       ! IN Surface pressure (Pa).
+,qw_1(row_length,rows)                                            &
+                       ! IN Total water content of lowest
+!                                 atmospheric layer (kg per kg air).
+,resft(land_pts,ntiles)                                           &
+!                           ! IN Surface resistance factor.
+,tile_frac(land_pts,ntiles)                                       &
+!                           ! IN Tile fractions.
+,tl_1(row_length,rows)                                            &
+                      ! IN Liquid/frozen water temperature for
+!                                lowest atmospheric layer (K).
+,tstar_ssi(row_length,rows)                                       &
+!                           ! IN Sea/sea-ice mean sfc temperature (K).
+,tstar_tile(land_pts,ntiles)                                      &
+!                           ! IN Tile surface temperatures (K).
+,z0hssi(row_length,rows)                                          &
+                      ! IN Roughness length for heat and
+!                           !    moisture (m).
+,z0h_tile(land_pts,ntiles)                                        &
+!                           ! IN Tile roughness lengths for heat and
+!                           !    moisture (m).
+,z0mssi(row_length,rows)                                          &
+                      ! IN Roughness length for momentum (m).
+,z0m_tile(land_pts,ntiles)                                        &
+!                           ! IN Tile roughness lengths for momentum (m)
+,z1(row_length,rows)  ! IN Height of lowest atmospheric level (m).
+
+REAL                                                              &
+ q1p5m(row_length,rows)                                           &
+                       ! OUT Specific humidity at screen height
+!                           !      of 1.5 metres (kg water per kg air).
+,q1p5m_tile(land_pts,ntiles)                                      &
+!                           ! OUT Q1P5M over land tiles.
+,t1p5m(row_length,rows)                                           &
+                       ! OUT Temperature at screen height of
+!                           !     1.5 metres (K).
+,t1p5m_tile(land_pts,ntiles)
+!                           ! OUT T1P5M over land tiles.
+
+
+!  External routines called :-
+EXTERNAL qsat_mix
+
+
+REAL                                                              &
+ cer1p5m                                                          &
+                      ! Ratio of coefficients reqd for
+!                           ! calculation of 1.5 m Q.
+,pstar_land(land_pts)                                             &
+                      ! Surface pressure for land points.
+,qs(row_length,rows)                                              &
+                      ! Surface saturated sp humidity.
+,qs_tile(land_pts)    ! Surface saturated sp humidity.
+
+ INTEGER                                                          &
+ i,j                                                              &
+             ! Loop counter (horizontal field index).
+,k                                                                &
+             ! Loop counter (tile point index).
+,l                                                                &
+             ! Loop counter (land point field index).
+,n           ! Loop counter (tile index).
+
+INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
+INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
+REAL(KIND=jprb)               :: zhook_handle
+
+!-----------------------------------------------------------------------
+! Diagnose local and GBM temperatures at 1.5 m if requested via ST1P5
+!-----------------------------------------------------------------------
+IF (lhook) CALL dr_hook('SCREEN_TQ',zhook_in,zhook_handle)
+
+IF (st1p5) THEN
+
+  DO j=1,rows
+    DO i=1,row_length
+     t1p5m(i,j) = 0.
+     IF (flandg(i,j) <  1.0 ) THEN
+       t1p5m(i,j) = (1.-flandg(i,j))*                             &
+        (tstar_ssi(i,j) - grcp*z1p5m +                            &
+        chr1p5m_sice(i,j) *  (tl_1(i,j) - tstar_ssi(i,j) +        &
+          grcp*(z1(i,j)+z0mssi(i,j)-z0hssi(i,j))))
+      END IF
+    END DO
+  END DO
+
+  DO n=1,ntiles
+    DO l=1,land_pts
+      t1p5m_tile(l,n) = 0.
+    END DO
+    DO k=1,tile_pts(n)
+      l = tile_index(k,n)
+      j=(land_index(l)-1)/row_length + 1
+      i = land_index(l) - (j-1)*row_length
+      t1p5m_tile(l,n) = tstar_tile(l,n) - grcp*z1p5m +            &
+                    chr1p5m(l,n)*( tl_1(i,j) - tstar_tile(l,n) +  &
+                    grcp*(z1(i,j)+z0m_tile(l,n)-z0h_tile(l,n)) )
+      t1p5m(i,j) = t1p5m(i,j)                                     &
+        + flandg(i,j)*tile_frac(l,n)*t1p5m_tile(l,n)
+    END DO
+  END DO
+
+END IF
+
+!-----------------------------------------------------------------------
+! Diagnose local and GBM humidities at 1.5 m if requested via SQ1P5
+!-----------------------------------------------------------------------
+IF (sq1p5) THEN
+
+! DEPENDS ON: qsat_mix
+  CALL qsat_mix(qs,tstar_ssi,pstar,row_length*rows,lq_mix_bl)
+  DO j=1,rows
+    DO i=1,row_length
+      q1p5m(i,j) = 0.
+      IF (flandg(i,j) <  1.0 ) THEN
+        cer1p5m = chr1p5m_sice(i,j) - 1.
+        q1p5m(i,j) = (1.-flandg(i,j))*                           &
+        (qw_1(i,j) + cer1p5m*( qw_1(i,j) - qs(i,j) ))
+      END IF
+    END DO
+  END DO
+
+  DO l=1,land_pts
+    j=(land_index(l)-1)/row_length + 1
+    i = land_index(l) - (j-1)*row_length
+    pstar_land(l) = pstar(i,j)
+  END DO
+
+  DO n=1,ntiles
+    DO l=1,land_pts
+      q1p5m_tile(l,n) = 0.
+    END DO
+! DEPENDS ON: qsat_mix
+    CALL qsat_mix(qs_tile,tstar_tile(:,n),pstar_land,land_pts     &
+    ,lq_mix_bl)
+    DO k=1,tile_pts(n)
+      l = tile_index(k,n)
+      j=(land_index(l)-1)/row_length + 1
+      i = land_index(l) - (j-1)*row_length
+      cer1p5m = resft(l,n)*(chr1p5m(l,n) - 1.)
+      q1p5m_tile(l,n) = qw_1(i,j) +                               &
+                        cer1p5m*( qw_1(i,j) - qs_tile(l) )
+      q1p5m(i,j) = q1p5m(i,j)                                     &
+        + flandg(i,j)*tile_frac(l,n)*q1p5m_tile(l,n)
+    END DO
+  END DO
+
+END IF
+
+IF (lhook) CALL dr_hook('SCREEN_TQ',zhook_out,zhook_handle)
+RETURN
+END SUBROUTINE screen_tq

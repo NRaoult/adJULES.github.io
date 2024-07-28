@@ -1,0 +1,23 @@
+<html>
+<title>ADJULES Home Page</title>
+<body>
+<h1>Welcome to the ADJULES website</h1>
+
+To download the latest version of ADJULES right-click on <a href="http://adjules.ex.ac.uk/2014_05_12_adjules.tar.gz">this link</a>.
+<br>
+<br>
+The filename will be of the form XXX.tar.gz
+<br>
+<br>
+On unix systems, unzip the archive XXX.tar.gz using "gunzip XXX.tar.gz" to create XXX.tar.
+Then extract using "tar -xvf XXX.tar".
+<br>
+<br>
+Instructions are in the release/DOCS folder.
+<br>
+<br>
+
+To learn about smoothing in ADJULES click on <a href="http://adjules.ex.ac.uk/smoothing.pdf">this link</a>.
+
+</body>
+</html>

@@ -1,0 +1,138 @@
+<html>
+<head>
+<html>
+<head>
+<title>About</title>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<link type="text/css" rel="stylesheet" href="CEH_stylesheet.css" media="screen" />
+
+<!--footer p{text-align:center;width:90%;}footer p,footer p a{color:#fff;}-->
+
+<style>
+ul {
+    list-style-type: none;
+    margin: 0px 0px;
+    padding: 0;
+    overflow: hidden;
+    background-color: #f1f1f1;
+    top: 130;
+    width: 100%;   
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: #111;
+    text-align: center;
+    padding: 14px 16px;
+     text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #d8d8d8;
+}
+
+</style>
+</head>
+
+<link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
+<title>About adJULES</title>
+<img src="test1.png" alt="JULES logo" width=100% align="middle">
+
+
+<body>
+<br>
+<!-- Menu -->
+<ul>
+  <li><a href="index.html">Home</a></li>
+  <li><a href="about.html">About</a></li>
+  <li><a href="code.html">Code</a></li>
+  <li><a href="results.html">Results</a></li>
+  <li><a href="publications.html">Publications</a></li>
+  <li><a href="contact.html">Contact</a></li>
+</ul>
+<br>
+
+<div id="columns" class="columns clearfix container">
+
+<h2>About.</h2>
+
+<p>JULES has over a hundred internal parameters representing the environmental sensitivities of the various land-surface types and PFTs within the model. In general these parameters are chosen to represent measurable “realworld” quantities (e.g. aerodynamic roughness length, surface albedo, plant root depth). 
+<p>
+Data assimilation is the act of incorprating observations into a model. By changing the internal parameters of the model, the model output can be made to more closely resemble the observed time-series. The optimal set of parameters is one that minimises the difference between the model output and the observed time-series the most. In order to minimse this difference, the 'adjoint' of JULES is used. This is a complex piece of code, derived by automatic differentiation, which enables efficient and objective calibration against observations. The adjoint is central to the adJULES parameter estimation system, hence the name.
+<p>
+<h4>Example</h4>
+These figures show the time-series of latent heat (left) and a photosynthesis flux called GPP (right) at a measurement site in Denmark (DK-Sor). The observations (black) are compared to JULES runs using default parameters (orange) and optimised parameters (blue). The optimised run can be seen to be much closer to the observations than the default JULES run.
+<div style="text-align: center"><img src="DK-Sor_single_0_LE_2.png" width=35% align='center'/><img src="DK-Sor_single_0_GPP_2.png" width=35% align='center'/></div>
+
+<h3> Theoretical Background</h3>
+<div>
+<p>
+For a given subset of internal parameters ($\mathbf{z}$), JULES generates a modelled time-series. A misfit or cost function which measures the mismatch between this time-series and the observations is created. The function also includes a term which measures the mismatch between the parameter values ($\mathbf{z}$) and the initial parameter values ($\mathbf{z}_0$). Finally the function is weighted by the prior error covariance matrixes on observations $\mathbf{R}$ and paramters $\mathbf{B}$. This function is minimised with respect to the parameters in order to find the best fit.
+
+$$J(\mathbf{z};\mathbf{z}_0) = \frac{1}{2}\left[\sum_t
+(\mathbf{m}_{t}(\mathbf{z})-\mathbf{o}_{t})^{T}\mathbf{R}^{-1}
+(\mathbf{m}_{t}(\mathbf{z})-\mathbf{o}_{t}) +
+(\mathbf{z}-\mathbf{z}_{0})^{T}\mathbf{B}^{-1}(\mathbf{z}-\mathbf{z}_0)\right]$$
+
+
+There are several ways this cost function could be minimised. The adJULES system uses what is called a gradient descent method. Gradient descent methods utilise the first-derivative of the cost to identicate which direction in parameter shape minimises the function. The second-derivative of the cost (called the Hessian) can also be used to map the curvature of parameter space and therefore show which direction minimises the function the fastest. Gradient descent methods iteratively minimise the cost function using this information until the optimimum (i.e. gradient $\approx$ 0) is reached or the bounds of the function are hit. The iterative algorthim currently used in the adJULES system is call the <a hre="https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm">BFGS</a>.
+<p>
+The first and second derivative of the cost function are calculated analytically using the adjoint of the JULES model. This information can also be used at the optimum to generate uncertainties associated to each parameter. If curvature of parameter space at the optimum has steep sides, there is low uncertainty associated to the parameter as moving it will significantly increase the cost. If the sides are flat, there is high uncertainty associated to the parameter.
+</div>
+
+
+
+<div style="text-align: center"><img src="diagram_simple.png" alt="JULES logo" width=80% align=center></div>
+
+For more technical details and results please see the <a href="results.html">results</a> page and read papers listed in the <a href="publications.html">publications</a>.
+
+<h3> Data </h3>
+
+<a href="https://daac.ornl.gov/cgi-bin/dataset_lister.pl?p=9">FluxNet</a> data are currently integrated in the adJULES distribution. These provide driving data for JULES and observations against which to calibrate the model.
+
+<div style="text-align: center"><img src="FLUXNET_locations.png" width=60% align=center></div>
+<p>
+Currently, the adJULES system uses in situ data from individual or multiple sites to calibrate these parameters. New data sources such as satellite products are expected to be integrated into the system soon.
+
+
+<h3> Emergent constraint </h3>
+<p>
+One of the key model parameters was found by <a href="https://iopscience.iop.org/article/10.1088/1748-9326/7/2/024002">Booth et al. (2012) </a> to dominate the spread of climate-carbon cycle feedbacks on JULES. This parameter, $T_{opt}$, corresponding to the optimal temperature for non-light-limited photosynthesis for broadleaf forests, was found to be anti-correlated with net CO2 change by 2100 ($\Delta$CO$_2$) - i.e., if the optimal temperature for photosynthesis for broadleaf trees is high, more CO$_2$ is predicted to be removed from the atmosphere through increased CO$_2$ fertilisation. 
+
+Using linear regression, we can exploit this relationship to calculate a probability distribution function (PDF) for the distribution of $\Delta\text{CO}_2$ given $T_{opt}$, i.e., $P\{\Delta\text{CO}_2|T_{opt}\}$. The contours of equal probability density around the best-fit linear regression follow a Gaussian probability density
+$$ P\{\Delta\text{CO}_2|T_{opt}\} = \frac{1}{\sqrt{2\pi\sigma^2_f}}\exp\left\{-\frac{(\Delta\text{CO}_2-f(T_{opt}))^2}{2\sigma_f^2}\right\}$$
+where $f$ is the function describing the linear regression between $\Delta\text{CO}_2$ and $T_{opt}$, and $\sigma_f$ is the "prediction error" of the regression.
+<p>
+When combined with $P(T_{opt})$ found by adJULES, and following the method used by <a href="https://www.nature.com/articles/nature25450">Cox et al. (2018)</a> we can calculate the PDF for $\Delta$CO$_2$ by numerically integrating over the product of two PDFs, $P\{\Delta\text{CO}_2|T_{opt}\}$ and $P(T_{opt})$:
+\begin{equation}
+    P(\Delta\text{CO}_2) = \int^{\infty}_{-\infty} P\{\Delta\text{CO}_2|T_{opt}\}P(T_{opt})dT_{opt}.
+\end{equation}
+</div>
+
+
+<!-- Blue banner on footer -->
+<div class="footer-tweets"></div>
+
+<footer>           
+<div class="region region-footer3"><div class="region-inner clearfix"><div id="block-block-28" class="block block-block no-title" ><div class="block-inner clearfix">  
+
+<div class="note" align=center>&copy; 2014 &mdash; 2024, developed by N.M. Raoult, maintained by the adJULES team at University of Exeter</div>
+<p>
+<div class="block-content content" align=center> Funded by the UK Natural Environment Research Council (<a href="https://www.nerc.ac.uk/" style="color: rgb(0,163, 204)">NERC</a>) through the National Centre for Earth Observation (<a href="https://www.nceo.ac.uk/" style="color: rgb(0,163, 204)"">NCEO</a>)
+</div>
+<div class="block-content content" align=center> and the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No. <a href="https://cordis.europa.eu/project/id/101026422" style="color:rgb(0,163, 204)">101026422</a>.
+</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+<html>
+<head>
+
+<link type="text/css" rel="stylesheet" href="CEH_stylesheet.css" media="screen" />
+
+<!--footer p{text-align:center;width:90%;}footer p,footer p a{color:#fff;}-->
+
+<style>
+ul {
+    list-style-type: none;
+    margin: 0px 0px;
+    padding: 0;
+    overflow: hidden;
+    background-color: #f1f1f1;
+    top: 130;
+    width: 100%;   
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: #111;
+    text-align: center;
+    padding: 14px 16px;
+     text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #d8d8d8;
+}
+
+</style>
+</head>
+
+<link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
+<title>adJULES code</title>
+<img src="test1.png" alt="JULES logo" width=100% align="middle">
+
+
+<body>
+<br>
+<!-- Menu -->
+<ul>
+  <li><a href="index.html">Home</a></li>
+  <li><a href="about.html">About</a></li>
+  <li><a href="code.html">Code</a></li>
+  <li><a href="results.html">Results</a></li>
+  <li><a href="publications.html">Publications</a></li>
+  <li><a href="contact.html">Contact</a></li>
+</ul>
+<br>
+
+<div id="columns" class="columns clearfix container">
+
+<h2>Code.</h2>
+To download a version of adJULES right-click on:
+<br>
+<p>
+<p>
+<span style="display:inline-block; width: 80px;"></span>
+<a href="http://adjules.ex.ac.uk/2017_25_09_adjules.tar.gz">adJULESvn1.0</a> - Version developed by N.Raoult in 2016 featured in the article. Most up to date version including a multisite framework
+<span style="display:inline-block; width: 200px;"></span> i.e. the ability to calibrate simultaneously over different measurement sites.
+<p>
+<span style="display:inline-block; width: 80px;"></span>
+<a href="http://adjules.ex.ac.uk/2015_05_12_adjules.tar.gz">adJULESvn0.9</a> - Version developed by C.Luke. Set up to calibrate the 9 Fluxnet sites from <a href="https://doi.org/10.5194/gmd-4-255-2011">Blyth et al. (2011) </a>.
+<br>
+<br>
+The filename will be of the form XXX.tar.gz. On unix systems, unzip the archive XXX.tar.gz using "gunzip XXX.tar.gz" to create XXX.tar. Then extract using "tar -xvf XXX.tar". Instructions are in the release/DOCS folder.
+<br>
+<p>
+The code for the adJULES-emergent constraint can be downloaded <a href="Emergent_constraint.zip">here</a>.
+
+<h3> Updating adJULES </h3>
+
+<p>A total of 94 physical JULES v2.2
+ parameters are integrated in the adJULES system. These cover 5 PFTs and 4 soil layers. <!-- Mainly relating to photosynthesis and energy transfers, key parameters included are: (8 include bias?)
+- nl0
+- q10 leaf and soil
+- alpha
+- f0
+- tlow/tupp
+- lai
+- canht_ft
+- satcon
+- b 
+cs
+- rootd_ft
+- albsoil
+- smvccl/smvcwt
+- dcatch/dli
+- dqcrit
+-sathh
+0sm_sat
+-hcap
+-hcon-->
+
+
+The framework provided by adJULES could in theory be expanded to calibrate newer versions of JULES and parameters beyond this list against additional fluxes. However, to achieve this, the adjoint of the JULES model with respect to these parameters needs to be generated and the code needed to do this is currently unavailable. 
+</div>
+
+<!-- Blue banner on footer -->
+<div class="footer-tweets"></div>
+
+<footer>           
+<div class="region region-footer3"><div class="region-inner clearfix"><div id="block-block-28" class="block block-block no-title" ><div class="block-inner clearfix">  
+
+<div class="note" align=center>&copy; 2014 &mdash; 2024, developed by N.M. Raoult, maintained by the adJULES team at University of Exeter</div>
+<p>
+<div class="block-content content" align=center> Funded by the UK Natural Environment Research Council (<a href="https://www.nerc.ac.uk/" style="color: rgb(0,163, 204)">NERC</a>) through the National Centre for Earth Observation (<a href="https://www.nceo.ac.uk/" style="color: rgb(0,163, 204)"">NCEO</a>)
+</div>
+<div class="block-content content" align=center> and the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No. <a href="https://cordis.europa.eu/project/id/101026422" style="color:rgb(0,163, 204)">101026422</a>.
+</div>
+</footer>
+
+</body>
+</html>

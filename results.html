@@ -1,0 +1,109 @@
+<html>
+<head>
+<html>
+<head>
+<title>Results</title>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<link type="text/css" rel="stylesheet" href="CEH_stylesheet.css" media="screen" />
+
+<!--footer p{text-align:center;width:90%;}footer p,footer p a{color:#fff;}-->
+
+<style>
+ul {
+    list-style-type: none;
+    margin: 0px 0px;
+    padding: 0;
+    overflow: hidden;
+    background-color: #f1f1f1;
+    top: 130;
+    width: 100%;   
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: #111;
+    text-align: center;
+    padding: 14px 16px;
+     text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #d8d8d8;
+}
+
+</style>
+</head>
+
+<link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
+<title>About adJULES</title>
+<img src="test1.png" alt="JULES logo" width=100% align="middle">
+
+
+<body>
+<br>
+<!-- Menu -->
+<ul>
+  <li><a href="index.html">Home</a></li>
+  <li><a href="about.html">About</a></li>
+  <li><a href="code.html">Code</a></li>
+  <li><a href="results.html">Results</a></li>
+  <li><a href="publications.html">Publications</a></li>
+  <li><a href="contact.html">Contact</a></li>
+</ul>
+<br>
+
+<div id="columns" class="columns clearfix container">
+
+<h2>Results.</h2>
+
+Here we outline a few key results highlighting the power of adJULES. For the full results please read papers listed in the <a href="publications.html">publications</a>. 
+
+<p>
+<h3>Compared to structural changes</h3>
+<p>
+Although it is common to increase model complexity (here moving from one a one-layer canopy scheme to a multilayered one), there is an urgent need to calibrate unconstrained model parameters. Here we see show that the calibration improves the model-data fit to a greater extent than complexify the model.
+<div style="text-align: center"><img src="DAvsSC.png" alt="JULES logo" width=60% align=center></div>
+source: <a href="thesis.pdf">Raoult 2017 thesis</a>
+<p>
+<h3> Multisite calibration</h3>
+It is possible to use adJULES to perform "multisite" calbirations - i.e. fit against multisite data points to find one common set of parameters. This common set of parameters can even sometimes outperform optimal parameter sets found by calibrating over individual sites. The Taylor diagrams below show the performance of site-specific and multi-site calibrations over Fluxnet sites - pbserved time series (black dot) are compared with modelled time series for default parameters (red dots), site-specific optimal parameters (blue dots) and PFT-generic optimal parameters (purple dots).
+<p>
+<div style="text-align: center"><img src="taylor_ms.png" alt="JULES logo" width=80% align=center></div>
+<p>
+source: <a href="https://doi.org/10.5194/gmd-9-2833-2016">Raoult et al. (2016)</a>
+<p>
+<h3> Constraining future projections</h3>
+<p>
+A parameter perturbation experiment using the UK LSM (JULES) found that projected CO2 change (ΔCO2) by the end of the century varied linearly with Topt — the optimal photosynthesis temperature parameter. a) Varying Topt within its range of uncertainty resulted in a spread of responses larger than that found running the model under different climate scenarios and across different models. b) Combining the relationship between Topt and ΔCO2 with constraints on Topt found by calibrating JULES against in situ daily data, we form an emergent constraint, narrowing the model’s plausible range of climate-carbon cycle feedbacks — with the projected ΔCO2 peaking at 496.5±91 instead of 606.6±128 ppmv. 
+<p>
+<div style="text-align: center"><img src="emergent_constraint.png" alt="JULES logo" width=40% align=center></div>
+<p>
+source: <a href="https://doi.org/10.5194/esd-14-723-2023">Raoult et al. (2023)</a>
+</div>
+
+<!-- Blue banner on footer -->
+<div class="footer-tweets"></div>
+
+<footer>           
+<div class="region region-footer3"><div class="region-inner clearfix"><div id="block-block-28" class="block block-block no-title" ><div class="block-inner clearfix">  
+
+<div class="note" align=center>&copy; 2014 &mdash; 2024, developed by N.M. Raoult, maintained by the adJULES team at University of Exeter</div>
+<p>
+<div class="block-content content" align=center> Funded by the UK Natural Environment Research Council (<a href="https://www.nerc.ac.uk/" style="color: rgb(0,163, 204)">NERC</a>) through the National Centre for Earth Observation (<a href="https://www.nceo.ac.uk/" style="color: rgb(0,163, 204)"">NCEO</a>)
+</div>
+<div class="block-content content" align=center> and the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No. <a href="https://cordis.europa.eu/project/id/101026422" style="color:rgb(0,163, 204)">101026422</a>.
+</div>
+</footer>
+
+</body>
+</html>
