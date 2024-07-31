@@ -1,0 +1,151 @@
+<html>
+<head>
+
+<link type="text/css" rel="stylesheet" href="CEH_stylesheet.css" media="screen" />
+
+<!--footer p{text-align:center;width:90%;}footer p,footer p a{color:#fff;}-->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+    window.MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        }
+    };
+</script>
+
+<style>
+ul {
+    list-style-type: none;
+    margin: 0px 0px;
+    padding: 0;
+    overflow: hidden;
+    background-color: #f1f1f1;
+    top: 130;
+    width: 100%;   
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: #111;
+    text-align: center;
+    padding: 14px 16px;
+     text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #d8d8d8;
+}
+ol {
+  padding-left: 50px;
+}
+</style>
+
+
+</head>
+
+<link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
+<title>CLARION</title>
+<img src="test1.png" alt="JULES logo" width=100% align="middle">
+
+
+<body>
+<br>
+<!-- Menu -->
+<ul>
+  <li><a href="index.html">Home</a></li>
+  <li><a href="about.html">About</a></li>
+  <li><a href="code.html">Code</a></li>
+  <li><a href="results.html">Results</a></li>
+  <li><a href="clarion.html">CLARION</a></li>
+  <li><a href="publications.html">Publications</a></li>
+  <li><a href="contact.html">Contact</a></li>
+</ul>
+<br>
+
+<div id="columns" class="columns clearfix container">
+
+<h2>CLARION.</h2>
+Constraining LAnd Responses by Integrating ObservatioNs - a H2020 Marie Skłodowska-Curie fellowship.
+<br>
+<p>
+<p>
+<div class="box">
+Investigate how observationally-constrained probability density functions (PDFs) of key climate model parameters (generated via Data Assimilation) can be used to reduce the range of possible future climate-carbon cycle feedbacks. Specifically, by:
+<ol>
+</span><li>Identifying the key climate model parameters controlling the carbon, water, and energy cycles, and their relationship with future carbon climate projections;</li>
+</span><li>Calibrating these parameters using sophisticated Bayesian techniques and the extensive amount of in situ and Earth Observations available to create observationally-constrained PDFs;</li>
+</span><li>Constraining  the range of climate-carbon cycle projections by propagating the reduction in parameter uncertainty.</li>
+</ol>
+</div>
+<p>
+<p>
+<h3> Identifying parameters </h3>
+<p>
+Sensitivity analyses are an important first step in any calibration exercise to identify the key internal parameters which have the most impact on the given model output. This is because; i) DA techniques can be costly and scale with the number of parameters used in the optimisation, and ii) attempting to calibrate an excessive number of parameters can lead to overfitting, and a severe degradation in model performance when the model is used in predictive mode. To carry-out a parameter-sensitivity study, the model is run in forward mode with many sets of feasible parameter values. Using specialised algorithms, it is then possible to calculate how much each parameter contributes to the variances of a modelled output. Below is an example using the Sobol algorithm, we are able to demonstrate the relative importance of key model parameters for simulated gross primary productivity (GPP) at three contrasting locations. At the temperate site (a), GPP is mostly controlled by maximum carboxylation rate (Vcmax). At the boreal site (b), where light can be limiting, parameters controlling the shape of the leaf gain importance (e.g. SLA - specific leaf area). At the semi-arid site (c), where plants can become water-stressed, parameters controlling the amount of SSM dominate (n - determines the shape of the Van Genuchten water retention curve).
+
+<div style="text-align: center"><img src="parameter_sensitivity.jpg" alt="JULES logo" width=40% align=center></div>
+source: <a href="https://www.nature.com/articles/s41561-022-00909-2">Novick et al. (2022)</a>
+<p>
+<h3> Exploring Bayesian techniques and novel datasets for calibration</h3>
+<p>
+<h4> Bayesian techniques</h4>
+<p>
+Calibration of land surface models is of vital importance to ensure accurate predictions of the land surface under climate change. However, these models are complex and calibrations at global scale face a number of challenges. There is also a high degree of parameter uncertainty that needs to be quantifying. Fortunetely, new methods have been emerging and the rise of the machine learning has led to more ensemble based methods to be used. One approach is the so-called history matching method (HM) to tune LSM parameters. This is a different approach which asks not what is the best set to use but, rather, what parameters can we rule out: what regions of parameter space lead to model outputs being "too far" from observations? To do this, HM uses an implausibility function, based on metrics chosen to assess
+the performance of the model, to rule-out unlikely parameters. HM commonly uses an iterative approach known as iterative
+refocusing to reduce parameter space, leaving the least unlikely parameter values - the not-ruled out yet (NROY) space. This
+is a more conservative approach to calibration, primarily used for uncertainty quantification, helping to identify structural
+deficiencies of the model. The figure below highlights the power of HM using a twin experiment (i.e. recovering known values, black triangles). By fitting against the amplitude of the net environment exchange and latent heat cycles, we immediately reduce parameter space by 20% whilst retaining the true values.
+<p>
+<div style="text-align: center"><img src="history_matching.png" alt="JULES logo" width=40% align=center></div>
+<p>
+source: <a href="https://egusphere.copernicus.org/preprints/2024/egusphere-2023-2996/">Raoult et al. (2024)</a>
+<p>
+Another approach explored during CLARION, is the 4DEnVar technique - a way to use ensembles to get information about the gradient of the cost function, thereby the bypassing the need for the hard to derive/maintain tangent linear/adjoint model or the inprecise finite-different approach.
+<p>
+<h4> Novel datasets</h4>
+<p>
+Parameters of land surface models are often calibrated against carbon flux data collected on sites from the FLUXNET network. However, optimising against present-day observations does not automatically give us confidence in future projections of the model, given that environmental conditions are likely to shift compared to the present day. Manipulation experiments give us a unique look into how the ecosystem may respond to future environmental changes. One such type of manipulation experiment, the Free Air CO2 Enrichment (FACE) experiment, provides a unique opportunity to assess vegetation response to increasing CO$_2$ by providing data under ambient and elevated CO$_2$ conditions. Therefore, to better capture the ecosystem response to increased CO$_2$, we add the data from two FACE sites to our optimisations, in addition to the FLUXNET data. When using data from both CO$_2$ conditions of FACE, we find that we are able to improve the magnitude of modelled productivity under both conditions - which allows us to gain extra confidence in the model simulations using this set of parameters.
+<p>
+<div style="text-align: center"><img src="FACE_opt.png" alt="JULES logo" width=80% align=center></div>
+<p>
+source: <a href="https://bg.copernicus.org/articles/21/1017/2024/">Raoult et al. (2024)</a>
+<p>
+<h3> Constraining future projections</h3>
+<p>
+A parameter perturbation experiment using the UK LSM (JULES) found that projected CO2 change (ΔCO2) by the end of the century varied linearly with Topt — the optimal photosynthesis temperature parameter. a) Varying Topt within its range of uncertainty resulted in a spread of responses larger than that found running the model under different climate scenarios and across different models. b) Combining the relationship between Topt and ΔCO2 with constraints on Topt found by calibrating JULES against in situ daily data, we form an emergent constraint, narrowing the model’s plausible range of climate-carbon cycle feedbacks — with the projected ΔCO2 peaking at 496.5±91 instead of 606.6±128 ppmv. 
+<p>
+<div style="text-align: center"><img src="emergent_constraint.png" alt="JULES logo" width=40% align=center></div>
+<p>
+source: <a href="https://doi.org/10.5194/esd-14-723-2023">Raoult et al. (2023)</a>
+<p>
+Below is another example showing how reduce parameter uncertainty after an optimisation can be fed into constrained climate predictions. Here we should how parameters calibrated in the FACE experiment against both ambient and elevate CO$_2$ conditions give a different trajectory to the default model parameters. Since the calibrated parameters are better able to capture the plant response under different  CO$_2$ conditions, we have an increased confidence in their predictions.
+<p>
+<div style="text-align: center"><img src="FACE_pred.png" alt="JULES logo" width=70% align=center></div>
+<p>
+source: <a href="https://bg.copernicus.org/articles/21/1017/2024/">Raoult et al. (2024)</a>
+<p>
+<p>
+</div>
+
+<!-- Blue banner on footer -->
+<div class="footer-tweets"></div>
+
+<footer>           
+<div class="region region-footer3"><div class="region-inner clearfix"><div id="block-block-28" class="block block-block no-title" ><div class="block-inner clearfix">  
+
+<div class="note" align=center>&copy; 2014 &mdash; 2024, developed by N.M. Raoult, maintained by the adJULES team at University of Exeter</div>
+<p>
+<div class="block-content content" align=center> Funded by the UK Natural Environment Research Council (<a href="https://www.nerc.ac.uk/" style="color: rgb(0,163, 204)">NERC</a>) through the National Centre for Earth Observation (<a href="https://www.nceo.ac.uk/" style="color: rgb(0,163, 204)"">NCEO</a>)
+</div>
+<div class="block-content content" align=center> and the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No. <a href="https://cordis.europa.eu/project/id/101026422" style="color:rgb(0,163, 204)">101026422</a>.
+</div>
+</footer>
+
+</body>
+</html>
